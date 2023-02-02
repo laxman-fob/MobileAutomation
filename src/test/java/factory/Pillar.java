@@ -8,6 +8,8 @@ import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.touch.offset.PointOption;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -17,6 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
+import utils.TestUtils;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -31,6 +34,8 @@ public class Pillar {
 
     protected static ThreadLocal <AppiumDriver> driver = new ThreadLocal<AppiumDriver>();
     protected static ThreadLocal <Properties> props = new ThreadLocal<Properties>();
+    protected static ThreadLocal <HashMap<String, String>> strings = new ThreadLocal<HashMap<String, String>>();
+    protected static ThreadLocal<JSONObject> testData = new ThreadLocal<>();
     public void setDriver(AppiumDriver driver2) {
         driver.set(driver2);
     }
@@ -38,6 +43,23 @@ public class Pillar {
     public AppiumDriver getDriver() {
         return driver.get();
     }
+
+    public HashMap<String, String> getStrings() {
+        return strings.get();
+    }
+
+    public void setStrings(HashMap<String, String> strings2) {
+        strings.set(strings2);
+    }
+
+
+    public JSONObject getTestData() {
+        return testData.get();
+    }
+    public void setTestData(JSONObject testData2) {
+        testData.set(testData2);
+    }
+
     public String getPlatform() {
         return platform.get();
     }
@@ -216,6 +238,26 @@ public class Pillar {
                 .moveTo(PointOption.point(anchor, endPoint))
                 .release().perform();
     }
+
+
+    public void  init_Strings(String fileName) throws Exception {
+        InputStream strings_are;
+        String xmlFileName = String.format("Strings/%s",fileName);
+        strings_are = getClass().getClassLoader().getResourceAsStream(xmlFileName);
+        TestUtils utils = new TestUtils();
+        setStrings(utils.parseStringXML(strings_are));
+
+    }
+
+    public void init_TestData(String fileName){
+        InputStream details;
+        String TestDataFileName = String.format("TestData/%s",fileName);
+        details = getClass().getClassLoader().getResourceAsStream(TestDataFileName);
+        JSONTokener token = new JSONTokener(details);
+        setTestData(new JSONObject(token));
+
+    }
+
 
 
     @AfterTest(alwaysRun = true)

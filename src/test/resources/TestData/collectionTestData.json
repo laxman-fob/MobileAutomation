@@ -1,0 +1,12 @@
+{
+
+  "expectResult":{
+    "placeAndCollection":"VisitEstonia2023\nPlaces: 1",
+    "nameOfCollection":"Automation Test 1"
+  },
+  "collection":{
+    "nameOfPlace":"Viru Keskus",
+    "nameOfCollection":"VisitEstonia2023"
+  }
+
+}

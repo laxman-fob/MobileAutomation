@@ -22,26 +22,7 @@ public class Inspector extends Pillar {
     @AndroidFindBy (accessibility = "OK, sure")
     @iOSXCUITFindBy (accessibility = "OK, sure")
     private WebElement improvementButton;
-/*
 
- /XCUIElementTypeButton[`label == "OK, sure"`]
-
-    @AndroidFindBy (accessibility = "OK, sure")
-    @iOSXCUITFindBy (accessibility = "OK, sure")
-    private WebElement improvementButton;
-
-    @AndroidFindBy (xpath = "//XCUIElementTypeButton[@name=\"OK, sure\"]")
-    @iOSXCUITFindBy (accessibility = "OK, sure")
-    private WebElement improvementButton;
-
-    @AndroidFindBy (accessibility = "OK, sure")
-    @iOSXCUITFindBy (accessibility = "OK, sure")
-    private WebElement improvementButton;
-
-    @AndroidFindBy (accessibility = "OK, sure")
-    @iOSXCUITFindBy (accessibility = "OK, sure")
-    private WebElement improvementButton;
-*/
     @AndroidFindBy (accessibility = "OK, sure")
     @iOSXCUITFindBy (accessibility = "OK, sure")
     private WebElement trafficButton;

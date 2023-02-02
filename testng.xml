@@ -8,18 +8,10 @@
             <parameter name="deviceName" value="Pixel_5" />
             <parameter name="platformVersion" value="12"/>
             <classes>
-                <class name="tests.TestCases"></class>
+                <class name="screen_test.ftu.FtuTest"/>
+                <class name="screen_test.collection.CollectionTest"/>
+                <class name="screen_test.guidance.DriveGuidanceTest"/>
             </classes>
         </test>
-    <!--
-        <test name="iPhone">
-            <parameter name="platformName" value="IOS" />
-            <parameter name="udid" value="" />
-            <parameter name="deviceName" value="iPhone 8" />
-            <parameter name="platformVersion" value="14.5.1"/>
-            <classes>
-                <class name="tests.TestCases"></class>
-            </classes>
-        </test>
-    -->
+
  </suite> <!-- Suite -->
