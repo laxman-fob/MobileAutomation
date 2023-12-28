@@ -37,6 +37,7 @@ public class FtuTest extends Pillar {
     public void test_improvement_page() throws InterruptedException {
         Assert.assertEquals(ftu.getOkSureText(),"OK, sure");
         ftu.clickImprovementOkSureButton();
+        ftu.stopDragScreenUp();
 
     }
 

@@ -11,9 +11,11 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
@@ -197,6 +199,141 @@ public class Pillar {
         }
     }
 
+    public enum Side {
+        LEFT, RIGHT, TOP, BOTTOM, MIDDLE
+    }
+
+    public void tapOnSide(WebElement element, Side side, double offsetPercentage) {
+        int x = 0, y = 0;
+
+        switch (side) {
+            case LEFT:
+                x = (int) (element.getLocation().getX() + element.getSize().getWidth() * offsetPercentage);
+                y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+                break;
+            case RIGHT:
+                x = (int) (element.getLocation().getX() + element.getSize().getWidth() * (1 - offsetPercentage));
+                y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+                break;
+            case TOP:
+                x = element.getLocation().getX() + element.getSize().getWidth() / 2;
+                y = (int) (element.getLocation().getY() + element.getSize().getHeight() * offsetPercentage);
+                break;
+            case BOTTOM:
+                x = element.getLocation().getX() + element.getSize().getWidth() / 2;
+                y = (int) (element.getLocation().getY() + element.getSize().getHeight() * (1 - offsetPercentage));
+                break;
+            case MIDDLE:
+                x = element.getLocation().getX() + element.getSize().getWidth() / 2;
+                y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+                break;
+        }
+
+        // Perform a tap on the specified side of the element
+        new TouchAction(getDriver())
+                .tap(PointOption.point(x, y))
+                .perform();
+    }
+
+    public void longTapOnSide(WebElement element, Side side, double offsetPercentage) {
+        int x = 0, y = 0;
+
+        switch (side) {
+            case LEFT:
+                x = (int) (element.getLocation().getX() + element.getSize().getWidth() * offsetPercentage);
+                y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+                break;
+            case RIGHT:
+                x = (int) (element.getLocation().getX() + element.getSize().getWidth() * (1 - offsetPercentage));
+                y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+                break;
+            case TOP:
+                x = element.getLocation().getX() + element.getSize().getWidth() / 2;
+                y = (int) (element.getLocation().getY() + element.getSize().getHeight() * offsetPercentage);
+                break;
+            case BOTTOM:
+                x = element.getLocation().getX() + element.getSize().getWidth() / 2;
+                y = (int) (element.getLocation().getY() + element.getSize().getHeight() * (1 - offsetPercentage));
+                break;
+            case MIDDLE:
+                x = element.getLocation().getX() + element.getSize().getWidth() / 2;
+                y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+                break;
+        }
+
+        // Perform a tap on the specified side of the element
+        new TouchAction(getDriver())
+                .longPress(PointOption.point(x, y))
+                .perform();
+    }
+
+    public void waitForDurationInSeconds(int seconds) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), seconds);
+
+        // Use a custom condition that always returns true after the specified duration
+        wait.until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(org.openqa.selenium.WebDriver driver) {
+                // Check if the specified duration has passed
+                long startTime = System.currentTimeMillis();
+                long currentTime;
+                do {
+                    currentTime = System.currentTimeMillis();
+                } while (currentTime - startTime < seconds * 1000);
+
+                // Always return true after the specified duration
+                return true;
+            }
+        });
+    }
+
+    public void verticalSwipeToElement(WebElement element, double anchorPercentage) {
+        Dimension size = getDriver().manage().window().getSize();
+        int anchor = (int) (size.width * anchorPercentage);
+        int elementY = element.getLocation().getY() + element.getSize().getHeight() / 2;
+        new TouchAction(getDriver())
+                .press(PointOption.point(anchor, size.height / 2))
+                .waitAction(waitOptions(ofMillis(1000)))
+                .moveTo(PointOption.point(anchor, elementY))
+                .release().perform();
+    }
+
+    public void horizontalSwipeToElement(WebElement element, double anchorPercentage) {
+        Dimension size = getDriver().manage().window().getSize();
+        int anchor = (int) (size.height * anchorPercentage);
+        int elementX = element.getLocation().getX() + element.getSize().getWidth() / 2;
+        new TouchAction(getDriver())
+                .press(PointOption.point(size.width / 2, anchor))
+                .waitAction(waitOptions(ofMillis(1000)))
+                .moveTo(PointOption.point(elementX, anchor))
+                .release().perform();
+    }
+    public void verticalSwipeFromElementToElement(WebElement startElement, WebElement endElement) {
+        Point startPoint = startElement.getLocation();
+        Point endPoint = endElement.getLocation();
+        Dimension size = getDriver().manage().window().getSize();
+
+        new TouchAction(getDriver())
+                .press(PointOption.point(((Point) startPoint).getX() + startElement.getSize().getWidth() / 2, startPoint.getY() + startElement.getSize().getHeight() / 2))
+                .waitAction(waitOptions(ofMillis(1000)))
+                .moveTo(PointOption.point(endPoint.getX() + endElement.getSize().getWidth() / 2, endPoint.getY() + endElement.getSize().getHeight() / 2))
+                .release().perform();
+    }
+
+    public void horizontalSwipeFromElementToElement(WebElement startElement, WebElement endElement) {
+        Point startPoint = startElement.getLocation();
+        Point endPoint = endElement.getLocation();
+        Dimension size = getDriver().manage().window().getSize();
+
+        new TouchAction(getDriver())
+                .press(PointOption.point(startPoint.getX() + startElement.getSize().getWidth() / 2, startPoint.getY() + startElement.getSize().getHeight() / 2))
+                .waitAction(waitOptions(ofMillis(1000)))
+                .moveTo(PointOption.point(endPoint.getX() + endElement.getSize().getWidth() / 2, endPoint.getY() + endElement.getSize().getHeight() / 2))
+                .release().perform();
+    }
+
+
+    //Use percentage only in extreme case, usually not recommended
 
     public void tapByPercentage (double widthPercentage,  double heightPercentage) {
         Dimension size = getDriver().manage().window().getSize();
@@ -239,16 +376,6 @@ public class Pillar {
                 .release().perform();
     }
 
-
-    public void  init_Strings(String fileName) throws Exception {
-        InputStream strings_are;
-        String xmlFileName = String.format("Strings/%s",fileName);
-        strings_are = getClass().getClassLoader().getResourceAsStream(xmlFileName);
-        TestUtils utils = new TestUtils();
-        setStrings(utils.parseStringXML(strings_are));
-
-    }
-
     public void init_TestData(String fileName){
         InputStream details;
         String TestDataFileName = String.format("TestData/%s",fileName);
@@ -258,6 +385,14 @@ public class Pillar {
 
     }
 
+    public void  init_Strings(String fileName) throws Exception {
+        InputStream strings_are;
+        String xmlFileName = String.format("Strings/%s",fileName);
+        strings_are = getClass().getClassLoader().getResourceAsStream(xmlFileName);
+        TestUtils utils = new TestUtils();
+        setStrings(utils.parseStringXML(strings_are));
+
+    }
 
 
     @AfterTest(alwaysRun = true)

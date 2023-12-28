@@ -44,4 +44,8 @@ public class FtuAllScreens extends Pillar {
         click(trafficButton);
     }
 
+    public void stopDragScreenUp() {
+        tapByPercentage(0.5,0.2);
+    }
+
 }
