@@ -7,6 +7,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -90,7 +91,7 @@ public class Pillar {
         URL url;
         AppiumDriver driver;
         URL remoteUrlAndroid = new URL("http://127.0.0.1:4723/");
-        URL remoteUrlIos = new URL("http://127.0.0.1:1000/");
+        URL remoteUrlIos = new URL("http://127.0.0.1:4723/");
         try {
             props = new Properties();
             String propFileName = "config.properties";
@@ -122,6 +123,12 @@ public class Pillar {
                     desiredCapabilities.setCapability("appium:newCommandTimeout", 3600);
                     desiredCapabilities.setCapability("appium:connectHardwareKeyboard", true);
                     desiredCapabilities.setCapability("autoDismissAlerts", true);
+
+                    // Exclude WebDriverAgent-specific capabilities
+                    desiredCapabilities.setCapability("useNewWDA", false);
+                    desiredCapabilities.setCapability("shouldUseSingletonTestManager", false);
+                    desiredCapabilities.setCapability("appium:shouldUseTestManagerForVisibilityDetection", false);
+
                     driver = new IOSDriver(remoteUrlIos, desiredCapabilities);
                     break;
 
@@ -200,7 +207,7 @@ public class Pillar {
     }
 
     public enum Side {
-        LEFT, RIGHT, TOP, BOTTOM, MIDDLE
+        LEFT, RIGHT, TOP, BOTTOM, MIDDLE,TOP_MIDDLE
     }
 
     public void tapOnSide(WebElement element, Side side, double offsetPercentage) {
@@ -226,6 +233,10 @@ public class Pillar {
             case MIDDLE:
                 x = element.getLocation().getX() + element.getSize().getWidth() / 2;
                 y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+                break;
+            case TOP_MIDDLE:
+                x = element.getLocation().getX() + element.getSize().getWidth() / 2;
+                y = element.getLocation().getY();
                 break;
         }
 
@@ -262,8 +273,14 @@ public class Pillar {
         }
 
         // Perform a tap on the specified side of the element
-        new TouchAction(getDriver())
-                .longPress(PointOption.point(x, y))
+        // new TouchAction(getDriver())
+        //   .longPress(PointOption.point(x, y))
+        //   .perform();
+        TouchAction touchAction = new TouchAction(getDriver());
+        touchAction.longPress(LongPressOptions.longPressOptions()
+                        .withPosition(PointOption.point(x, y))
+                        .withDuration(Duration.ofMillis(2000))) // Adjust the duration as needed
+                .release()
                 .perform();
     }
 
@@ -376,6 +393,7 @@ public class Pillar {
                 .release().perform();
     }
 
+
     public void init_TestData(String fileName){
         InputStream details;
         String TestDataFileName = String.format("TestData/%s",fileName);
@@ -383,6 +401,14 @@ public class Pillar {
         JSONTokener token = new JSONTokener(details);
         setTestData(new JSONObject(token));
 
+    }
+    public boolean isAndroid() {
+        return getDriver().getPlatformName().equalsIgnoreCase("Android");
+    }
+
+    // Helper method to check if the current platform is iOS
+    public boolean isIOS() {
+        return getDriver().getPlatformName().equalsIgnoreCase("iOS");
     }
 
     public void  init_Strings(String fileName) throws Exception {

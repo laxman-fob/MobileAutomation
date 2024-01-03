@@ -26,19 +26,19 @@ public class DriveGuidance extends Pillar {
     private WebElement searchBoxEdit;
 
     @AndroidFindBy (xpath = "//android.widget.ImageView[@index=\"0\" and @clickable='true']")
-    // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
+    @iOSXCUITFindBy (xpath = "(//XCUIElementTypeImage[@index = '1'])[position()=last()]")
     private WebElement dismissGuidance;
 
     @AndroidFindBy (xpath = "(//android.view.View[@index = '0'])[position() = last()]")
-    // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
+    @iOSXCUITFindBy (xpath = "(//XCUIElementTypeOther[@index = '0' and @accessible='true']) [position()=2]")
     private WebElement firstSearch;
 
     @AndroidFindBy (xpath = "(//android.widget.ImageView[@index=\"0\"]) [position()=4]")
-    // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
+    @iOSXCUITFindBy (xpath = "(//XCUIElementTypeButton[@index = '1'])[position()=1]")
     private WebElement startGuidance;
 
     @AndroidFindBy (xpath = "//android.widget.ImageView[@index=\"0\" and not(@content-desc='Share')]")
-   // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
+    @iOSXCUITFindBy (xpath = "(//XCUIElementTypeOther[@index = '0'])[position()=last()-3]")
     private WebElement dismissButton;
 
 
@@ -51,7 +51,7 @@ public class DriveGuidance extends Pillar {
     }
 
     public void startCarGuidance() throws InterruptedException {
-        waitForDurationInSeconds(1);
+        waitForDurationInSeconds(2);
         longTapOnSide(startGuidance,Side.MIDDLE,0);
 
     }

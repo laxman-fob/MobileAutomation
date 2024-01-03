@@ -18,42 +18,37 @@ public class Collection extends Pillar {
     @iOSXCUITFindBy (accessibility = "New collection")
     private WebElement createNewCollectionButton;
 
-  //  @AndroidFindBy (xpath = "//*[@text='Collection name']")
-   // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Collection name\"]")
-  @AndroidFindBy (xpath = "//android.widget.EditText")
-  @iOSXCUITFindBy (xpath = "//android.widget.EditText")
+    @AndroidFindBy (xpath = "//android.widget.EditText")
+    @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField")
     private WebElement editableCollectionTitle;
 
     @AndroidFindBy (accessibility = "Create collection")
     @iOSXCUITFindBy (accessibility = "Create collection")
     private WebElement createCollectionButton;
 
-    //@AndroidFindBy (xpath = "//*[@text='Where to?']")
-    //@iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
-
     @AndroidFindBy (xpath = "//android.widget.EditText")
-    @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
+    @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField")
     private WebElement searchBox;
 
     @AndroidFindBy (xpath = "//android.widget.ImageView[@index='1' and @scrollable='false']")
-   // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
-    private WebElement collectionCancelButton;
+    @iOSXCUITFindBy (xpath = "//XCUIElementTypeImage[@index = '2']")
+    private WebElement collectionCancelButtonLastScreen;
 
     @AndroidFindBy (xpath = "//android.widget.ImageView[@index='0' and @scrollable='true']")
-    // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
-    private WebElement collectionCancelButton2;
+    @iOSXCUITFindBy (xpath = "//XCUIElementTypeImage[@index = '1']")
+    private WebElement collectionCancelButtonSecondLastScreen;
 
     @AndroidFindBy (xpath = "(//android.view.View[@index = '0'])[position() = last()]")
-    // @iOSXCUITFindBy (xpath = "//XCUIElementTypeTextField[@name=\"Where to?\"]")
+    @iOSXCUITFindBy (xpath = "(//XCUIElementTypeOther[@index = '0' and @accessible='true']) [position()=2]")
     private WebElement recommendedFirstSearch;
 
     @AndroidBy( xpath = "(//android.widget.ImageView[@index=\"1\"]) [position()=2]")
-    @iOSXCUITFindBy (accessibility = "Add a place")
+    @iOSXCUITFindBy (xpath = "//XCUIElementTypeImage[@name=\"Add a place\"]")
     private WebElement addAPlaceFrame;
 
 
     public void openCollectionPageAsFtu() throws InterruptedException {
-        verticalSwipeByPercentages(0.9,0.8,0.5);
+        verticalSwipeByPercentages(0.9,0.7,0.5);
         waitForDurationInSeconds(1);
         click(collectionGetStartedButton);
     }
@@ -68,23 +63,36 @@ public class Collection extends Pillar {
     }
 
     public void addPlaceToCreatedCollection() throws InterruptedException {
-        tapByPercentage(0.5,0.27);
+        if (isAndroid()) {
+            tapByPercentage(0.5,0.27);
+        } else if (isIOS()){
+            tapOnSide(addAPlaceFrame, Side.TOP_MIDDLE, 0.5);
+        }
         sendKeys(searchBox, "Viru Keskus");
         waitForDurationInSeconds(1);
         click(recommendedFirstSearch);
     }
 
-    public void close1stCreatedCollection() throws InterruptedException {
-        tapOnSide(collectionCancelButton2,Side.RIGHT,0.1);
+    public void closeCollectionCancelButtonSecondLastScreen() throws InterruptedException {
+        tapOnSide(collectionCancelButtonSecondLastScreen,Side.RIGHT,0.1);
+        waitForDurationInSeconds(3);
     }
-    public void close2ndCreatedCollection() throws InterruptedException {
-        click(collectionCancelButton);
+    public void closeCollectionCancelButtonLastScreen() throws InterruptedException {
+        click(collectionCancelButtonLastScreen);
+        waitForDurationInSeconds(3);
     }
 
 
     public String collectionNameAndPlace(){
-        WebElement createdCollectionNameAndPlaceCount = getDriver().findElementByAccessibilityId("VisitEstonia2024\nPlaces: 1");
-        return createdCollectionNameAndPlaceCount.getAttribute("content-desc");
+        String text = null;
+        if(isAndroid()){
+            WebElement createdCollectionNameAndPlaceCount = getDriver().findElementByAccessibilityId("VisitEstonia2024\nPlaces: 1");
+            text = createdCollectionNameAndPlaceCount.getAttribute("content-desc");
+        }else if(isIOS()){
+            WebElement createdCollectionNameAndPlaceCount = getDriver().findElementByXPath("//XCUIElementTypeImage[@index='0']");
+            text = createdCollectionNameAndPlaceCount.getAttribute("label");
+        }
+        return text;
 
     }
 

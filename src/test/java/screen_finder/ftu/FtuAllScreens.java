@@ -26,21 +26,31 @@ public class FtuAllScreens extends Pillar {
 
     public void clickImprovementOkSureButton() throws InterruptedException {
         click(improvementButton);
+        waitForDurationInSeconds(1);
     }
 
     public void clickLetsGoButton() throws InterruptedException {
         click(locationButton);
+        waitForDurationInSeconds(1);
     }
 
     public String getOkSureText(){
-        String title = improvementButton.getAttribute("content-desc");
+        String title = null;
+        if(isAndroid()){
+            title = improvementButton.getAttribute("content-desc");
+        } else if(isIOS()){
+            title = improvementButton.getAttribute("label");
+
+        }
         return title;
     }
 
     public void clickContinueButton() {
+        waitForDurationInSeconds(1);
         click(makeoverButton);
     }
     public void clickTrafficOkSureButton() {
+        waitForDurationInSeconds(1);
         click(trafficButton);
     }
 

@@ -28,9 +28,10 @@ public class CollectionTest {
     public void addPlaceToCollection() throws InterruptedException {
         collection.createCollectionNameAsFtu();
         collection.addPlaceToCreatedCollection();
-        collection.close2ndCreatedCollection();
+        collection.closeCollectionCancelButtonLastScreen();
         Assert.assertEquals(collection.collectionNameAndPlace(),"VisitEstonia2024\nPlaces: 1");
-        collection.close1stCreatedCollection();
+        collection.closeCollectionCancelButtonSecondLastScreen();
+
     }
 
 
