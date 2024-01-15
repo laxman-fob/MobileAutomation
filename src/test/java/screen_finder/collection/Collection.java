@@ -5,10 +5,11 @@ import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.WebElement;
+import utils.AppiumUtils;
 
 import java.util.List;
 
-public class Collection extends Pillar {
+public class Collection extends AppiumUtils {
 
     @AndroidFindBy(accessibility = "Get started")
     @iOSXCUITFindBy(accessibility = "Get started")
@@ -47,43 +48,43 @@ public class Collection extends Pillar {
     private WebElement addAPlaceFrame;
 
 
-    public void openCollectionPageAsFtu() throws InterruptedException {
+    public void openCollectionPageAsFtu() {
         verticalSwipeByPercentages(0.9,0.7,0.5);
         waitForDurationInSeconds(1);
         click(collectionGetStartedButton);
     }
 
-    public void createCollectionNameAsFtu() throws InterruptedException {
+    public void createCollectionNameAsFtu() {
         waitForDurationInSeconds(1);
         click(createNewCollectionButton);
         waitForDurationInSeconds(1);
-        sendKeys(editableCollectionTitle,"VisitEstonia2024");
+        sendKeys(editableCollectionTitle,getStrings().get("collectionTitle"));
         waitForDurationInSeconds(1);
         click(createCollectionButton);
     }
 
-    public void addPlaceToCreatedCollection() throws InterruptedException {
+    public void addPlaceToCreatedCollection() {
         if (isAndroid()) {
             tapByPercentage(0.5,0.27);
         } else if (isIOS()){
             tapOnSide(addAPlaceFrame, Side.TOP_MIDDLE, 0.5);
         }
-        sendKeys(searchBox, "Viru Keskus");
+        sendKeys(searchBox, getStrings().get("placeName"));
         waitForDurationInSeconds(1);
         click(recommendedFirstSearch);
     }
 
-    public void closeCollectionCancelButtonSecondLastScreen() throws InterruptedException {
+    public void closeCollectionCancelButtonSecondLastScreen() {
         tapOnSide(collectionCancelButtonSecondLastScreen,Side.RIGHT,0.1);
         waitForDurationInSeconds(3);
     }
-    public void closeCollectionCancelButtonLastScreen() throws InterruptedException {
+    public void closeCollectionCancelButtonLastScreen() {
         click(collectionCancelButtonLastScreen);
         waitForDurationInSeconds(3);
     }
 
 
-    public String collectionNameAndPlace(){
+    public String collectionNameAndPlace() {
         String text = null;
         if(isAndroid()){
             WebElement createdCollectionNameAndPlaceCount = getDriver().findElementByAccessibilityId("VisitEstonia2024\nPlaces: 1");

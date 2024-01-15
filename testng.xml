@@ -3,9 +3,9 @@
 <suite name="Suite" parallel="none">
     <test name="Galaxy S9 Plus">
         <parameter name="platformName" value="Android" />
-        <parameter name="udid" value="R58T50AR8JL" />
+        <parameter name="udid" value="1cb898e02e047ece" />
         <parameter name="deviceName" value="Galaxy S9 plus" />
-        <parameter name="platformVersion" value="13"/>
+        <parameter name="platformVersion" value="10"/>
         <classes>
             <class name="screen_test.ftu.FtuTest"/>
             <class name="screen_test.collection.CollectionTest"/>
@@ -15,18 +15,16 @@
 </suite>
 
     <!-- Suite
-     <test name="iPhone14">
-         <parameter name="platformName" value="IOS" />
-         <parameter name="udid" value="00008101-000D44D92229003A" />
-         <parameter name="deviceName" value="iPhone 12 mini" />
-         <parameter name="platformVersion" value="14.5.1"/>
-         <classes>
-             <class name="screen_test.ftu.FtuTest"/>
-             <class name="screen_test.collection.CollectionTest"/>
-             <class name="screen_test.guidance.DriveGuidanceTest"/>
-         </classes>
-     </test>
- </suite>
+    <test name="iPhone14">
+        <parameter name="platformName" value="IOS" />
+        <parameter name="udid" value="00008101-000D44D92229003A" />
+        <parameter name="deviceName" value="iPhone 12 mini" />
+        <parameter name="platformVersion" value="14.5.1"/>
+        <classes>
+            <class name="screen_test.ftu.FtuTest"/>
+        </classes>
+    </test>
+</suite>
 
      <test name="Galaxy S9 Plus">
          <parameter name="platformName" value="Android" />

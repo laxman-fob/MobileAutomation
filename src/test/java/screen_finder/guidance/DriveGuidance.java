@@ -5,8 +5,9 @@ import factory.Pillar;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.WebElement;
+import utils.AppiumUtils;
 
-public class DriveGuidance extends Pillar {
+public class DriveGuidance extends AppiumUtils {
 
 
     @AndroidFindBy(accessibility = "Directions")
@@ -44,7 +45,7 @@ public class DriveGuidance extends Pillar {
 
     public void clickDirectionButton() throws InterruptedException {
         click(searchBox);
-        sendKeys(searchBoxEdit, "Lasnamae Centrum");
+        sendKeys(searchBoxEdit, getStrings().get("placeNameForGuidance"));
         waitForDurationInSeconds(1);
         click(firstSearch);
         click(directionButton);

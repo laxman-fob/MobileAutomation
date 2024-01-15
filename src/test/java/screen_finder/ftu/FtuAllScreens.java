@@ -4,8 +4,9 @@ import factory.Pillar;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.WebElement;
+import utils.AppiumUtils;
 
-public class FtuAllScreens extends Pillar {
+public class FtuAllScreens extends AppiumUtils {
 
     @AndroidFindBy (xpath = "//android.widget.Button[@content-desc=\"Continue\"]\n")
     @iOSXCUITFindBy (xpath = "//XCUIElementTypeButton[@name=\"Continue\"]")
@@ -24,17 +25,17 @@ public class FtuAllScreens extends Pillar {
     private WebElement trafficButton;
 
 
-    public void clickImprovementOkSureButton() throws InterruptedException {
+    public void clickImprovementOkSureButton() {
         click(improvementButton);
         waitForDurationInSeconds(1);
     }
 
-    public void clickLetsGoButton() throws InterruptedException {
+    public void clickLetsGoButton() {
         click(locationButton);
         waitForDurationInSeconds(1);
     }
 
-    public String getOkSureText(){
+    public String getOkSureText() {
         String title = null;
         if(isAndroid()){
             title = improvementButton.getAttribute("content-desc");
